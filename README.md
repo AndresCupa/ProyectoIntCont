@@ -10,7 +10,6 @@ Antes de comenzar, asegúrate de tener instalados los siguientes componentes en 
 - [Docker Compose](https://docs.docker.com/compose/install/)
 - [Git](https://git-scm.com/downloads)
 - [Composer](https://getcomposer.org/download/) (para gestionar dependencias de PHP)
-- [Node.js y npm](https://nodejs.org/) (para compilar activos frontend)
 
 ## Clonar el Repositorio
 
@@ -67,13 +66,6 @@ docker exec -it laravel_app bash
 
 ```bash
 composer install
-```
-
-3. Instala las dependencias de Node.js y compila los activos frontend:
-
-```bash
-npm install
-npm run dev
 ```
 
 ## Migraciones y Seeders
