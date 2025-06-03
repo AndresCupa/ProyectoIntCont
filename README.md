@@ -1,135 +1,125 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Proyecto de Integración Continua
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Estado de compilación"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Descargas totales"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Última versión estable"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="Licencia"></a>
-</p>
+Este proyecto es parte de un trabajo universitario que implementa una aplicación web utilizando Laravel, Docker y Jenkins para demostrar prácticas de integración continua y despliegue automatizado.
 
-## Acerca del Proyecto
+## Requisitos Previos
 
-Este proyecto ha sido desarrollado como parte de un trabajo universitario y consiste en la **Comercialización de productos vía WEB**. Utiliza el framework Laravel para la gestión de usuarios, productos y comentarios, permitiendo la administración y venta de productos en línea.
+Antes de comenzar, asegúrate de tener instalados los siguientes componentes en tu sistema:
 
-## Acerca de Laravel
+- [Docker](https://www.docker.com/get-started)
+- [Docker Compose](https://docs.docker.com/compose/install/)
+- [Git](https://git-scm.com/downloads)
+- [Composer](https://getcomposer.org/download/) (para gestionar dependencias de PHP)
+- [Node.js y npm](https://nodejs.org/) (para compilar activos frontend)
 
-Laravel es un framework para aplicaciones web con una sintaxis expresiva y elegante. Creemos que el desarrollo debe ser una experiencia agradable y creativa para ser realmente gratificante. Laravel facilita tareas comunes utilizadas en muchos proyectos web, tales como:
+## Clonar el Repositorio
 
-- [Motor de rutas simple y rápido](https://laravel.com/docs/routing).
-- [Contenedor de inyección de dependencias potente](https://laravel.com/docs/container).
-- Múltiples sistemas para [sesiones](https://laravel.com/docs/session) y [caché](https://laravel.com/docs/cache).
-- [ORM de base de datos](https://laravel.com/docs/eloquent) expresivo e intuitivo.
-- [Migraciones de esquema](https://laravel.com/docs/migrations) independientes de la base de datos.
-- [Procesamiento robusto de trabajos en segundo plano](https://laravel.com/docs/queues).
-- [Transmisión de eventos en tiempo real](https://laravel.com/docs/broadcasting).
+```bash
+git clone https://github.com/AndresCupa/ProyectoIntCont.git
+cd ProyectoIntCont
+```
 
-Laravel es accesible, potente y proporciona las herramientas necesarias para aplicaciones grandes y robustas.
+## Configuración del Entorno
 
-## Aprendiendo Laravel
+1. Copia el archivo de ejemplo `.env.example` y renómbralo a `.env`:
 
-Laravel cuenta con la [documentación](https://laravel.com/docs) y la biblioteca de tutoriales en video más extensa y completa de todos los frameworks modernos de aplicaciones web, lo que facilita comenzar con el framework.
+```bash
+cp .env.example .env
+```
 
-También puedes probar el [Laravel Bootcamp](https://bootcamp.laravel.com), donde serás guiado para construir una aplicación moderna desde cero.
+2. Genera la clave de la aplicación Laravel:
 
-Si prefieres aprender viendo videos, [Laracasts](https://laracasts.com) puede ayudarte. Laracasts contiene más de 2000 tutoriales en video sobre temas como Laravel, PHP moderno, pruebas unitarias y JavaScript.
+```bash
+php artisan key:generate
+```
 
-## Patrocinadores de Laravel
+## Construir y Levantar los Contenedores
 
-Agradecemos a los siguientes patrocinadores por financiar el desarrollo de Laravel. Si estás interesado en convertirte en patrocinador, visita la página de [Patreon de Laravel](https://patreon.com/taylorotwell).
+El proyecto incluye un archivo `docker-compose.yml` y dos Dockerfiles (`dockerfile.laravel` y `dockerfile.nginx`) para configurar los servicios necesarios.
 
-### Socios Premium
+1. Construye y levanta los contenedores:
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+```bash
+docker-compose up -d --build
+```
 
-## Contribuyendo
+Esto iniciará los siguientes servicios:
 
-¡Gracias por considerar contribuir al framework Laravel! La guía de contribución se encuentra en la [documentación de Laravel](https://laravel.com/docs/contributions).
+- **Laravel App**: Contenedor que ejecuta la aplicación Laravel.
+- **Nginx**: Servidor web que sirve la aplicación.
+- **MySQL**: Base de datos para la aplicación.
 
-## Código de Conducta
+2. Verifica que los contenedores estén corriendo:
 
-Para asegurar que la comunidad de Laravel sea acogedora para todos, por favor revisa y respeta el [Código de Conducta](https://laravel.com/docs/contributions#code-of-conduct).
+```bash
+docker ps
+```
 
-## Vulnerabilidades de Seguridad
+## Instalar Dependencias
 
-Si descubres una vulnerabilidad de seguridad en Laravel, por favor envía un correo electrónico a Taylor Otwell a [taylor@laravel.com](mailto:taylor@laravel.com). Todas las vulnerabilidades serán atendidas de inmediato.
+1. Accede al contenedor de la aplicación Laravel:
+
+```bash
+docker exec -it laravel_app bash
+```
+
+2. Dentro del contenedor, instala las dependencias de PHP:
+
+```bash
+composer install
+```
+
+3. Instala las dependencias de Node.js y compila los activos frontend:
+
+```bash
+npm install
+npm run dev
+```
+
+## Migraciones y Seeders
+
+1. Ejecuta las migraciones para crear las tablas en la base de datos:
+
+```bash
+php artisan migrate
+```
+
+2. (Opcional) Ejecuta los seeders para poblar la base de datos con datos de prueba:
+
+```bash
+php artisan db:seed
+```
+
+## Acceder a la Aplicación
+
+Una vez que los contenedores estén en funcionamiento y las dependencias instaladas, puedes acceder a la aplicación en tu navegador web en:
+
+```
+http://localhost
+```
+
+## Pruebas
+
+Para ejecutar las pruebas automatizadas, utiliza el siguiente comando dentro del contenedor de la aplicación:
+
+```bash
+php artisan test
+```
+
+## Desplegar con Jenkins
+
+Este proyecto está preparado para integrarse con Jenkins para automatizar el proceso de integración continua. Asegúrate de tener Jenkins instalado y configurado en tu entorno. Puedes crear un pipeline en Jenkins que realice las siguientes tareas:
+
+1. Clonar el repositorio.
+2. Construir los contenedores Docker.
+3. Ejecutar las migraciones y seeders.
+4. Ejecutar las pruebas automatizadas.
+5. Desplegar la aplicación.
+
+## Contribuciones
+
+Las contribuciones son bienvenidas. Por favor, sigue las buenas prácticas de desarrollo y realiza pull requests para proponer cambios.
 
 ## Licencia
 
-El framework Laravel es software de código abierto licenciado bajo la [licencia MIT](https://opensource.org/licenses/MIT).<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
-
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
-
-## About Laravel
-
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
-
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
-
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
-
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Este proyecto está bajo la Licencia MIT. Consulta el archivo `LICENSE` para más detalles.
